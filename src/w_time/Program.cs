@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using w_time.Systems.ApplicationSetup;
 
 namespace w_time
 {
@@ -15,6 +16,10 @@ namespace w_time
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            DataEnvironmentSetup DataSetup = new DataEnvironmentSetup();
+            DataSetup.Initialize();
+
             Application.Run(new Form1());
         }
     }
