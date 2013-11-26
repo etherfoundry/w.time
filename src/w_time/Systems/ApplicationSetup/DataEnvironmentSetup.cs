@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Data.SqlServerCe;
+using w_time.data.helpers;
+using w_time.data;
 
 namespace w_time.Systems.ApplicationSetup
 {
     class DataEnvironmentSetup
     {
-        const string APPDATA_DIR = "w_time";
-        const string TIMEDB_FILE = "time.sdf";
         string FullAppDataPath = string.Empty;
         string FullTimeDBPath = string.Empty;
 
@@ -22,14 +22,10 @@ namespace w_time.Systems.ApplicationSetup
 
         void CreateBaseDatabase()
         {
-            InitializeAppDataPath();
-            if (!File.Exists(FullTimeDBPath))
+            SQLDB sql = SQLDB.Instance;
+            if (!sql.CheckDatabaseExists())
             {
-                string connStr = "DataSource=" + FullTimeDBPath;
-                using(SqlCeEngine engine = new SqlCeEngine(connStr))
-                {
-                    engine.CreateDatabase();
-                }
+                sql.CreateDatabase();
             }
         }
 
@@ -46,9 +42,8 @@ namespace w_time.Systems.ApplicationSetup
         {
             if (FullAppDataPath == string.Empty || FullTimeDBPath == string.Empty)
             {
-                string AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                FullAppDataPath = Path.Combine(AppDataPath, APPDATA_DIR);
-                FullTimeDBPath = Path.Combine(FullAppDataPath, TIMEDB_FILE);
+                FullAppDataPath = EnvLibrary.GetAppDataPath();
+                FullTimeDBPath = EnvLibrary.GetDBPath();
             }
         }
     }

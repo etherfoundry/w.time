@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace w_time.data.dal
+namespace w_time.data
 {
-    class Migration
+    class DAL
     {
-        
     }
 }

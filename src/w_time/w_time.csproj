@@ -47,8 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="data\dal\DAL.cs" />
-    <Compile Include="data\dal\Migration.cs" />
+    <Compile Include="data\DAL.cs" />
+    <Compile Include="data\Migration.cs" />
+    <Compile Include="data\SQLDB.cs" />
+    <Compile Include="exceptions\DatabaseExistsException.cs" />
+    <Compile Include="helpers\EnvLibrary.cs" />
     <Compile Include="data\migrations\_1_BaseSchema.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
