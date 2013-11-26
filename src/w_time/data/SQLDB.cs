@@ -8,7 +8,9 @@ using w_time.data.helpers;
 
 namespace w_time.data
 {
-    // Singleton SQLCE connection
+    /// <summary>
+    /// Singleton SQLCE connection
+    /// </summary>
     class SQLDB
     {
         private static readonly SQLDB _instance = new SQLDB();
@@ -19,6 +21,9 @@ namespace w_time.data
             connection = new SqlCeConnection(GetConnectionString());
         }
 
+        /// <summary>
+        /// Singleton instance of SQLCE management object (including connection)
+        /// </summary>
         public static SQLDB Instance
         {
             get
@@ -27,16 +32,27 @@ namespace w_time.data
             }
         }
 
+        /// <summary>
+        /// Checks if a file exists where the SQLCE DB is expected to be
+        /// </summary>
+        /// <returns></returns>
         public bool CheckDatabaseExists()
         {
             return File.Exists(EnvLibrary.GetDBPath());
         }
 
-        public string GetConnectionString()
+        /// <summary>
+        /// Gets the (currently static) SQLCE connection string
+        /// </summary>
+        /// <returns>Connection String</returns>
+        private string GetConnectionString()
         {
             return "DataSource=" + EnvLibrary.GetDBPath();
         }
 
+        /// <summary>
+        /// Creates an empty SQLCE database if it does not exist
+        /// </summary>
         public void CreateDatabase()
         {
             if (!CheckDatabaseExists())
