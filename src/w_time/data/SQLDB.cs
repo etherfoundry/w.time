@@ -14,11 +14,12 @@ namespace w_time.data
     class SQLDB
     {
         private static readonly SQLDB _instance = new SQLDB();
-        private static SqlCeConnection connection;
+        private bool connectionOpen = false;
+        private SqlCeConnection _connection;
 
         private SQLDB()
         {
-            connection = new SqlCeConnection(GetConnectionString());
+            _connection = new SqlCeConnection(GetConnectionString());
         }
 
         /// <summary>
@@ -29,6 +30,41 @@ namespace w_time.data
             get
             {
                 return _instance;
+            }
+        }
+
+
+        public SqlCeConnection connection
+        {
+            get
+            {
+                return _connection;
+            }
+        }
+
+        private bool IsConnectionOpen
+        {
+            get
+            {
+                return this.connectionOpen || (this._connection.State == System.Data.ConnectionState.Open);
+            }
+        }
+
+        public void OpenConnection()
+        {
+            if (!this.IsConnectionOpen)
+            {
+                this._connection.Open();
+                connectionOpen = true;
+            }
+        }
+
+        public void CloseConnection()
+        {
+            if (this.IsConnectionOpen)
+            {
+                this._connection.Close();
+                connectionOpen = false;
             }
         }
 
