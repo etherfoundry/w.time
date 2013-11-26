@@ -5,8 +5,19 @@ using System.Text;
 
 namespace w_time
 {
+    /// <summary>
+    /// Represents an error that occurs when creating the database
+    /// </summary>
     class DatabaseExistsException : Exception
     {
+        public override string Message
+        {
+            get
+            {
+                return "The database already exists and could not be created. (This should not happen)";
+            }
+        }
+
         public DatabaseExistsException()
         {
         }
