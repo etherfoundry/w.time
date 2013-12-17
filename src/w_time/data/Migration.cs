@@ -14,8 +14,11 @@ namespace w_time.data
         /// <returns></returns>
         public int CheckMigrationLevel()
         {
+            int result = 0;
             CreateMigrationTableIfNotExists();
-            return 0;
+            DAL dal = new DAL();
+            result = (int)dal.ExecuteScalarQuery("SELECT MAX(VersionNumber) FROM Migration");
+            return result;
         }
 
         private bool CheckMigrationTableExists()

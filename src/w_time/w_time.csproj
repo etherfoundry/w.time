@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="data\BaseMigration.cs" />
     <Compile Include="data\DAL.cs" />
     <Compile Include="data\Migration.cs" />
     <Compile Include="data\SQLDB.cs" />

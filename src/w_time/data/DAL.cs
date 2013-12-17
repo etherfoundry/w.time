@@ -20,6 +20,17 @@ namespace w_time.data
             return resultCount > 0;
         }
 
+        public object ExecuteScalarQuery(string query)
+        {
+            object result = 0;
+            using (SqlCeCommand cmd = this.GetConnection().CreateCommand())
+            {
+                cmd.CommandText = query;
+                result = cmd.ExecuteScalar();
+            }
+            return result;
+        }
+
         public int ExecuteRawQuery(string query)
         {
             int resultCount = 0;
