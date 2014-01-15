@@ -50,6 +50,9 @@
     <Compile Include="data\BaseMigration.cs" />
     <Compile Include="data\DAL.cs" />
     <Compile Include="data\Migration.cs" />
+    <Compile Include="data\schema\ColumnTypes.cs" />
+    <Compile Include="data\schema\Column.cs" />
+    <Compile Include="data\schema\Table.cs" />
     <Compile Include="data\SQLDB.cs" />
     <Compile Include="exceptions\DatabaseExistsException.cs" />
     <Compile Include="helpers\EnvLibrary.cs" />

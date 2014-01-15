@@ -17,8 +17,24 @@ namespace w_time.data
             int result = 0;
             CreateMigrationTableIfNotExists();
             DAL dal = new DAL();
-            result = (int)dal.ExecuteScalarQuery("SELECT MAX(VersionNumber) FROM Migration");
+            object queryResult = dal.ExecuteScalarQuery("SELECT MAX(VersionNumber) AS VersionNumber FROM Migration");
+            if (queryResult != null)
+            {
+                result = (int)queryResult;
+            }
             return result;
+        }
+
+        public void GetMigrations()
+        {
+            List<Type> MigrationTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
+                                .Where(type => typeof(BaseMigration).IsAssignableFrom(type)).ToList();
+
+            foreach (Type MigrationType in MigrationTypes)
+            {
+                BaseMigration migration = (BaseMigration)Activator.CreateInstance(MigrationType);
+                migration.up();
+            }
         }
 
         private bool CheckMigrationTableExists()
