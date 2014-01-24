@@ -61,12 +61,22 @@ namespace w_time.data.migrations
 
             // References Process and Category
             this.CreateTable(EventTable);
-            return false;
+            return true;
         }
 
         public override bool down()
         {
             return false;
+        }
+
+        protected override string _name()
+        {
+            return "Base Schema";
+        }
+
+        protected override int _version()
+        {
+            return 1;
         }
     }
 }

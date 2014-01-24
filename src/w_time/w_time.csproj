@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="data\BaseMigration.cs" />
     <Compile Include="data\DAL.cs" />
+    <Compile Include="helpers\ErrorLogger.cs" />
     <Compile Include="data\Migration.cs" />
     <Compile Include="data\schema\ColumnTypes.cs" />
     <Compile Include="data\schema\Column.cs" />

@@ -8,32 +8,59 @@ namespace w_time.data
     class Migration
     {
         const string MIGRATION_TABLE = "Migration";
-        /// <summary>
-        /// Checks the current
-        /// </summary>
-        /// <returns></returns>
-        public int CheckMigrationLevel()
+
+        public List<int> GetAppliedMigrationList()
         {
-            int result = 0;
             CreateMigrationTableIfNotExists();
             DAL dal = new DAL();
-            object queryResult = dal.ExecuteScalarQuery("SELECT MAX(VersionNumber) AS VersionNumber FROM Migration");
-            if (queryResult != null && !(queryResult is DBNull))
-            {
-                result = (int)queryResult;
-            }
-            return result;
+            return dal.ExecuteListQuery<int>("SELECT VersionNumber FROM Migration", "VersionNumber");
         }
 
-        public void GetMigrations()
+        public void RunMigrations()
         {
+            // Get our available migration classes
             List<Type> MigrationTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
                                 .Where(type => type.IsSubclassOf(typeof(BaseMigration))).ToList();
 
-            foreach (Type MigrationType in MigrationTypes)
+            // Turn them into migration instances; we need to so we can check the version
+            List<BaseMigration> AvailableMigrations = new List<BaseMigration>();
+            MigrationTypes.ForEach((Type MigrationType) =>
             {
-                BaseMigration migration = (BaseMigration)Activator.CreateInstance(MigrationType);
-                migration.up();
+                AvailableMigrations.Add((BaseMigration)Activator.CreateInstance(MigrationType));
+            });
+
+            // Get a list of migrations that have already been applied
+            List<int> appliedMigrations = this.GetAppliedMigrationList();
+
+            //TODO: ORDER THESE!
+            var unappliedMigrations = from avm in AvailableMigrations
+                    where !appliedMigrations.Contains(avm.version)
+                    select avm;
+
+            foreach (BaseMigration mig in unappliedMigrations)
+            {
+                bool migrationSuccessful = false;
+                string errorMessage = string.Empty;
+
+                try
+                {
+                    migrationSuccessful = mig.up();
+                }
+                catch (Exception ex)
+                {
+                    errorMessage = ex.Message + "\r\n" + ex.StackTrace;
+                }
+
+                if (!migrationSuccessful)
+                {
+                    // Something went wrong with the last migration..
+                    // [insert error logging system here]
+                    ErrorLogger.Log("Migration " + mig.name + " failed to run... Stopping migrations! The error message was: \r\n" + errorMessage);
+                    break;
+                }
+                else
+                {
+                }
             }
         }
 

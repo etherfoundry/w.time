@@ -24,8 +24,7 @@ namespace w_time
 
             // Check and run migrations if necessary
             Migration migration = new Migration();
-            migration.CheckMigrationLevel();
-            migration.GetMigrations();
+            migration.RunMigrations();
 
             Application.Run(new Form1());
         }
