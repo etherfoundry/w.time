@@ -76,9 +76,18 @@ namespace w_time.data.schema
                 definitionSQL.AppendFormat("IDENTITY({0},{1}) ", seed, increment);
             }
 
-            if(this.Default != null)
+            if (this.Default != null)
             {
                 definitionSQL.AppendFormat("DEFAULT \"{0}\" ", this.Default);
+            }
+
+            if (!this.IsNullable)
+            {
+                definitionSQL.Append(" NOT NULL ");
+            }
+            else
+            {
+                definitionSQL.Append(" NULL ");
             }
 
             if (this.IsPrimaryKey)
