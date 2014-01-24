@@ -31,10 +31,19 @@ namespace w_time.data.schema
         protected DataType _Type;
         public bool IsIdentity = false;
         public bool IsNullable = false;
+        /// <summary>
+        /// The DEFAULT value of column
+        /// </summary>
         public string @Default = null;
         public bool IsUnique = false;
         public bool IsPrimaryKey = false;
+        /// <summary>
+        /// Identity starting number (defaults to 1)
+        /// </summary>
         public int? IdentitySeed;
+        /// <summary>
+        /// Identity increment offset (defaults to n+1)
+        /// </summary>
         public int? IdentityIncrement;
         public string ReferencesTable = null;
         public string ReferencesColumn = null;
@@ -48,6 +57,10 @@ namespace w_time.data.schema
             }
         }
 
+        /// <summary>
+        /// The full column definition, including any options like PRIMARAY KEY, IDENTITY, and so on.
+        /// </summary>
+        /// <returns></returns>
         public string toColumnDefinition()
         {
             StringBuilder definitionSQL = new StringBuilder();
@@ -81,16 +94,28 @@ namespace w_time.data.schema
             return definitionSQL.ToString();
         }
 
+        /// <summary>
+        /// The column type, with any additional information, like size; e.g. numeric(10,3)
+        /// </summary>
+        /// <returns></returns>
         protected string GetColumnTypeString()
         {
-            return this.GetBaseColumnTypeString() + this.GetColumnTypeString();
+            return this.GetBaseColumnTypeString() + this.GetColumnTypeSize();
         }
 
+        /// <summary>
+        /// The base column name, like 'bigint'
+        /// </summary>
+        /// <returns></returns>
         protected  string GetBaseColumnTypeString()
         {
             return this._Type.ToString();
         }
 
+        /// <summary>
+        /// The common column size of blank. This is overloaded to be "(n)" or "(p,s)", etc.
+        /// </summary>
+        /// <returns></returns>
         protected virtual string GetColumnTypeSize()
         {
             return string.Empty;

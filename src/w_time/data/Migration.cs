@@ -18,7 +18,7 @@ namespace w_time.data
             CreateMigrationTableIfNotExists();
             DAL dal = new DAL();
             object queryResult = dal.ExecuteScalarQuery("SELECT MAX(VersionNumber) AS VersionNumber FROM Migration");
-            if (queryResult != null)
+            if (queryResult != null && !(queryResult is DBNull))
             {
                 result = (int)queryResult;
             }
@@ -28,7 +28,7 @@ namespace w_time.data
         public void GetMigrations()
         {
             List<Type> MigrationTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
-                                .Where(type => typeof(BaseMigration).IsAssignableFrom(type)).ToList();
+                                .Where(type => type.IsSubclassOf(typeof(BaseMigration))).ToList();
 
             foreach (Type MigrationType in MigrationTypes)
             {

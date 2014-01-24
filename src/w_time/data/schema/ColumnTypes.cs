@@ -144,4 +144,21 @@ namespace w_time.data.schema
     {
         public UniqueIdentifierColumn() { this._Type = DataType.uniqueidentifier; }
     }
+
+    class PrimaryKeyIntColumn : Column
+    {
+        /// <summary>
+        /// Integer Primary key Column
+        /// </summary>
+        /// <param name="type">Integer Data Type</param>
+        public PrimaryKeyIntColumn(DataType type = DataType.integer)
+        {
+            this.Name = "ID";
+            this._Type = type;
+            this.IsPrimaryKey = true;
+            this.IsIdentity = true;
+            this.IdentityIncrement = 1;
+            this.IdentitySeed = 1;
+        }
+    }
 }
