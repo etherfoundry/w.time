@@ -26,7 +26,9 @@ namespace w_time
             Migration migration = new Migration();
             migration.RunMigrations();
 
-            Application.Run(new Form1());
+            MainContext context = new MainContext();
+
+            Application.Run(context);
         }
     }
 }

@@ -61,6 +61,9 @@ namespace w_time.data.migrations
 
             // References Process and Category
             this.CreateTable(EventTable);
+
+
+            
             return true;
         }
 

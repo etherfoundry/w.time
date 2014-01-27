@@ -32,9 +32,9 @@ namespace w_time.data
             // Get a list of migrations that have already been applied
             List<int> appliedMigrations = this.GetAppliedMigrationList();
 
-            //TODO: ORDER THESE!
             var unappliedMigrations = from avm in AvailableMigrations
                     where !appliedMigrations.Contains(avm.version)
+                    orderby avm.version ascending
                     select avm;
 
             foreach (BaseMigration mig in unappliedMigrations)
